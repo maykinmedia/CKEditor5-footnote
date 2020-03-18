@@ -14,7 +14,7 @@ Install the ckeditor5-footnote package:
 Then add the `Footnote` plugin to the plugin list:
 
 ```javascript
-import FootNote from 'ckeditor5-footnote/footnote';
+import FootNote from 'ckeditor5-footnote/src/footnote';
 
 ClassicEditor
     .create( document.querySelector( '#editor' ), {
