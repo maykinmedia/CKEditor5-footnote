@@ -1,0 +1,25 @@
+{
+  "name": "ckeditor5-footnote",
+  "version": "0.0.1",
+  "description": "Footnote plug-in for CKEditor5",
+  "keywords": [
+    "ckeditor",
+    "ckeditor5",
+    "ckeditor 5",
+    "ckeditor5-feature",
+    "ckeditor5-plugin"
+  ],
+  "dependencies": {
+    "@ckeditor/ckeditor5-core": "^17.0.0",
+    "@ckeditor/ckeditor5-engine": "^17.0.0",
+    "@ckeditor/ckeditor5-paragraph": "^17.0.0",
+    "@ckeditor/ckeditor5-ui": "^17.0.0",
+    "@ckeditor/ckeditor5-utils": "^17.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Precise-software/ckeditor5-footnote.git"
+  },
+  "author": "bohanniu@precise",
+  "license": "ISC"
+}
