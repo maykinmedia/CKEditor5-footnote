@@ -28,7 +28,74 @@ export default class FootNoteEditing extends Plugin {
         );
     }
 
-    _deleteModify() {     
+    _deleteModify() {
+        const viewDocument = this.editor.editing.view.document;
+        const editor = this.editor;
+        this.listenTo( viewDocument, 'delete', ( evt, data ) => {
+            const doc = editor.model.document;
+            const deleteEle = doc.selection.getSelectedElement();
+            const positionParent = doc.selection.getLastPosition().parent;
+            console.log(deleteEle);
+
+            if (deleteEle !== null && deleteEle.name === "footNote") {
+                console.log(1)
+                removeHoder(editor, 0);
+            }
+
+            if (positionParent.name === "$root") {
+                return
+            }
+
+            
+            if (positionParent.parent.name !== "footNoteList") {
+                return
+            }
+
+            if (positionParent.maxOffset > 1 && doc.selection.anchor.offset <= 1) {
+                console.log(evt);
+                console.log(data);
+                data.preventDefault();
+                evt.stop();
+            }
+
+            if ((doc.selection.anchor.offset === 0 && positionParent.maxOffset === 1) || (positionParent.maxOffset === doc.selection.anchor.offset && doc.selection.focus.offset === 0)) {
+                const footNoteList = positionParent.parent;
+                const index = footNoteList.index;
+                const footNote = footNoteList.parent;
+                for (var i = index + 1; i < footNote.maxOffset; i ++) {
+                        editor.model.change( writer => {
+                            writer.setAttribute( 'id', i - 1, footNote.getChild( i ).getChild( 0 ).getChild( 0 ) );
+                        } );
+                    }
+                removeHoder(editor, index);
+                editor.model.change( writer => {
+                    if (index === 1) {
+                        if (footNote.childCount === 2) {
+                            if (footNote.previousSibling === null) {
+                                const p = writer.createElement( 'paragraph' );
+                                this.editor.model.insertContent( p, writer.createPositionAt( doc.getRoot(), 0 ));
+                                writer.setSelection( p, 'end' );
+                                }
+                            else {
+                                writer.setSelection( footNote.previousSibling, 'end'  );
+                            }
+                            writer.remove(footNote);
+                        }
+                        else {
+                            writer.setSelection( footNoteList.nextSibling, 'end' );
+                        }
+                    }
+                    else {
+                        writer.setSelection( footNoteList.previousSibling, 'end' );
+                    }
+                    writer.remove(footNoteList);
+                } );
+                data.preventDefault();
+                evt.stop();
+                
+            }
+        } , { priority: 'high' });
+        /*
         this.editor.model.on( 'deleteContent', () => {
             const editor = this.editor;
             const changes = editor.model.document.differ.getChanges();
@@ -50,7 +117,7 @@ export default class FootNoteEditing extends Plugin {
                     
                 }
             } );
-        });
+        });*/
     }
 
     _defineSchema() {

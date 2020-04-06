@@ -1,6 +1,6 @@
 {
   "name": "ckeditor5-footnote",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Footnote plug-in for CKEditor5",
   "keywords": [
     "ckeditor",
